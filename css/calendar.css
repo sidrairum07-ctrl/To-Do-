@@ -1,0 +1,277 @@
+/* ===================================================================
+   MY NOTEPAD - Calendar Styling (Reference Matched)
+   Recreates the exact editorial layout from the reference image:
+   - Bold uppercase month on left
+   - Large bold year on right
+   - Rose-tinted Monday-Sunday header strip
+   - Crisp dark grid cells with top-left day numbers
+   =================================================================== */
+
+.calendar-card {
+  width: 100%;
+  background: var(--bg-blush);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Calendar Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0.25rem 0.25rem 0.5rem;
+  border-bottom: none;
+}
+
+.month-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.bold-month-title {
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  line-height: 1;
+  user-select: none;
+}
+
+.month-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.arrow-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: all var(--transition-fast);
+}
+
+.arrow-btn:hover {
+  background: #FFFFFF;
+  border-color: var(--border-dark);
+  color: var(--accent-rose);
+  transform: scale(1.05);
+}
+
+.arrow-btn:active {
+  transform: scale(0.95);
+}
+
+.year-title-wrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.bold-year-title {
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  line-height: 1;
+  user-select: none;
+}
+
+/* Calendar Grid Container */
+.calendar-grid-container {
+  width: 100%;
+  border: 1.5px solid var(--border-dark);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+}
+
+/* Weekday Header Row (Monday to Sunday) */
+.weekday-header-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--bg-weekday);
+  border-bottom: 1.5px solid var(--border-dark);
+}
+
+.weekday-cell {
+  text-align: center;
+  padding: 0.75rem 0.25rem;
+  font-size: clamp(0.72rem, 1.3vw, 0.88rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-dark);
+  border-right: 1.5px solid var(--border-dark);
+  user-select: none;
+}
+
+.weekday-cell:last-child {
+  border-right: none;
+}
+
+/* Days Grid */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* Individual Day Cell */
+.day-cell {
+  position: relative;
+  min-height: clamp(85px, 12vw, 125px);
+  background: #FFFFFF;
+  border-right: 1.5px solid var(--border-dark);
+  border-bottom: 1.5px solid var(--border-dark);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.day-cell:nth-child(7n) {
+  border-right: none;
+}
+
+/* Hover Effect */
+.day-cell:hover {
+  background-color: #FFF9FA;
+}
+
+.day-cell:hover .day-number {
+  color: var(--accent-rose);
+}
+
+/* Day Number (Top Left, exactly like reference) */
+.day-cell-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.day-number {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  user-select: none;
+  line-height: 1.2;
+}
+
+/* Outside current month */
+.day-cell.outside-month {
+  background: #FAF8F8;
+}
+
+.day-cell.outside-month .day-number {
+  color: #B2A8A9;
+}
+
+/* Today indicator */
+.day-cell.is-today .day-number {
+  background: var(--accent-rose);
+  color: #FFFFFF;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+}
+
+/* Selected Day active border */
+.day-cell.is-selected {
+  outline: 2px solid var(--accent-rose);
+  outline-offset: -2px;
+  background: #FFF5F7;
+}
+
+/* Task preview container inside day cell */
+.cell-tasks-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+  flex: 1;
+}
+
+.cell-task-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.18rem 0.35rem;
+  border-radius: 4px;
+  background: var(--accent-rose-soft);
+  color: #551D28;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1.2;
+}
+
+.cell-task-pill.completed {
+  text-decoration: line-through;
+  opacity: 0.55;
+  background: #EFEFEF;
+  color: #777777;
+}
+
+.cell-task-pill .pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-rose);
+  flex-shrink: 0;
+}
+
+.cell-task-pill.completed .pill-dot {
+  background: var(--accent-green);
+}
+
+.cell-task-more {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-rose);
+  margin-top: 0.1rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .year-title-wrap {
+    align-self: flex-end;
+    margin-top: -2.5rem;
+  }
+
+  .weekday-cell {
+    padding: 0.5rem 0.15rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.02em;
+  }
+
+  .day-cell {
+    min-height: 70px;
+    padding: 0.3rem;
+  }
+
+  .cell-task-pill {
+    font-size: 0.62rem;
+    padding: 0.1rem 0.25rem;
+  }
+}

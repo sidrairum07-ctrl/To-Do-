@@ -1,0 +1,150 @@
+/* ===================================================================
+   MY NOTEPAD - Base Styles & Theme
+   Palette: Chic blush pink, crisp charcoal borders, rose accents
+   =================================================================== */
+
+:root {
+  /* Chic Blush Pastel Palette */
+  --bg-blush: #FBF0F2;
+  --bg-card: #FFFFFF;
+  --bg-weekday: #F9D5DA;
+  --bg-weekday-hover: #F4C4CB;
+  
+  /* Text & Border Colors */
+  --text-dark: #121212;
+  --text-muted: #666666;
+  --text-subtle: #8E8E93;
+  --border-dark: #2B2B2B;
+  --border-light: #E8D5D8;
+  
+  /* Accent Colors */
+  --accent-rose: #E26D82;
+  --accent-rose-hover: #D1566C;
+  --accent-rose-soft: #FDE8EC;
+  --accent-green: #34A853;
+  --accent-green-soft: #E6F4EA;
+
+  /* Dimensions & Transitions */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition-fast: 0.15s ease;
+  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-pop: 0 20px 40px -10px rgba(43, 43, 43, 0.12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-blush);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1.25rem 2.5rem;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Wrapper */
+.app-wrapper {
+  width: 100%;
+  max-width: 1240px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Top Nav Bar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.brand-icon {
+  color: var(--accent-rose);
+}
+
+.brand h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.btn-subtle {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  background: #FFFFFF;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-subtle:hover {
+  background: var(--accent-rose-soft);
+  border-color: var(--accent-rose);
+  color: var(--accent-rose-hover);
+}
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dark);
+  background: #FFFFFF;
+  color: var(--text-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background: var(--accent-rose-soft);
+  color: var(--accent-rose-hover);
+  border-color: var(--accent-rose);
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 0.75rem;
+  color: var(--text-subtle);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}

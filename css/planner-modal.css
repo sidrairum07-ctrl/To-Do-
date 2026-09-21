@@ -1,0 +1,520 @@
+/* ===================================================================
+   MY NOTEPAD - Pop-Out Planner & Interactive UI
+   - Chic pop-out daily notepad card
+   - Task checklists & custom checkboxes
+   - Motivational celebration toasts
+   - Confetti canvas & reminders
+   =================================================================== */
+
+/* Modal Backdrop */
+.planner-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 20, 25, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 1000;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Planner Pop-Out Card */
+.planner-card {
+  width: 100%;
+  max-width: 580px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Modal Header */
+.planner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.4rem 1.5rem 1rem;
+  border-bottom: 1.5px solid var(--border-dark);
+  background: var(--bg-weekday);
+}
+
+.planner-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #702632;
+  text-transform: uppercase;
+}
+
+.planner-date-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-top: 0.15rem;
+  letter-spacing: -0.01em;
+}
+
+.btn-close {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: all var(--transition-fast);
+}
+
+.btn-close:hover {
+  background: var(--accent-rose);
+  color: #FFFFFF;
+  border-color: var(--accent-rose);
+  transform: scale(1.05);
+}
+
+/* Progress Bar */
+.planner-progress-wrap {
+  padding: 0.75rem 1.5rem;
+  background: #FFFBFB;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #F0E6E8;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-rose), #FA8E9C);
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Add Task Form */
+.add-task-form {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #FFFFFF;
+}
+
+.input-main-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-input {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.task-input:focus {
+  border-color: var(--accent-rose);
+  box-shadow: 0 0 0 3px var(--accent-rose-soft);
+}
+
+.btn-add-task {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.65rem 1.1rem;
+  background: var(--text-dark);
+  color: #FFFFFF;
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-add-task:hover {
+  background: var(--accent-rose);
+  border-color: var(--accent-rose);
+}
+
+/* Input Details: Reminder & Tag */
+.input-details-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.82rem;
+}
+
+.detail-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.time-input,
+.category-select {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  color: var(--text-dark);
+  outline: none;
+}
+
+.time-input:focus,
+.category-select:focus {
+  border-color: var(--accent-rose);
+}
+
+/* Tasks Container */
+.tasks-container {
+  padding: 1rem 1.5rem 1.5rem;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+/* Individual Task Item */
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  background: #FFFDFD;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.task-item:hover {
+  border-color: var(--accent-rose);
+  background: #FFF9FA;
+}
+
+.task-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-dark);
+  border-radius: 4px;
+  background: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.custom-checkbox:hover {
+  border-color: var(--accent-rose);
+  background: var(--accent-rose-soft);
+}
+
+.custom-checkbox.checked {
+  background: var(--accent-rose);
+  border-color: var(--accent-rose);
+}
+
+.custom-checkbox svg {
+  display: none;
+  color: #FFFFFF;
+}
+
+.custom-checkbox.checked svg {
+  display: block;
+}
+
+/* Task Info Text & Meta */
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.task-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  word-break: break-word;
+  transition: all var(--transition-fast);
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-subtle);
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.tag-badge {
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tag-badge.tag-General { background: #F2F2F2; color: #555; }
+.tag-badge.tag-Work { background: #E8F0FE; color: #1967D2; }
+.tag-badge.tag-Personal { background: #FCE8E6; color: #C5221F; }
+.tag-badge.tag-Urgent { background: #FEEFC3; color: #B06000; }
+.tag-badge.tag-Self-Care { background: #E6F4EA; color: #137333; }
+
+.task-time-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-muted);
+}
+
+/* Task Actions (Delete) */
+.btn-task-delete {
+  background: transparent;
+  border: none;
+  color: #B5B5B5;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-task-delete:hover {
+  color: #C5221F;
+  background: #FCE8E6;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-subtle);
+}
+
+.empty-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.empty-subtitle {
+  font-size: 0.84rem;
+}
+
+/* ===================================================================
+   Motivational Toast Notification
+   =================================================================== */
+.motivation-toast {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
+  background: #FFFFFF;
+  border: 2px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.1rem;
+  box-shadow: var(--shadow-pop);
+  animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInToast {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.toast-sparkle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-quote {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+}
+
+/* ===================================================================
+   In-App Reminder Alert Card
+   =================================================================== */
+.reminder-alert {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
+  background: #FFFFFF;
+  border: 2px solid var(--accent-rose);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.15rem;
+  box-shadow: var(--shadow-pop);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reminder-icon {
+  color: var(--accent-rose);
+  display: flex;
+  align-items: center;
+}
+
+.reminder-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.reminder-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent-rose);
+}
+
+#reminderMessage {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.btn-dismiss {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  background: var(--bg-blush);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.btn-dismiss:hover {
+  background: var(--accent-rose);
+  color: #FFFFFF;
+  border-color: var(--accent-rose);
+}
+
+/* ===================================================================
+   Confetti Canvas (Fixed over screen, ignores pointer events)
+   =================================================================== */
+.confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
