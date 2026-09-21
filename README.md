@@ -1,5 +1,15 @@
 # 🌸 My Notepad — Aesthetic Calendar & Daily To-Do
 
+<div align="center">
+
+### 👉 **[✨ CLICK HERE TO OPEN LIVE WEBSITE ✨](https://sidrairum07-ctrl.github.io/To-Do-/)** 👈
+
+[![Open Live Web App](https://img.shields.io/badge/🌸_Live_App-Open_My_Notepad-E26D82?style=for-the-badge&logoColor=white)](https://sidrairum07-ctrl.github.io/To-Do-/)
+
+</div>
+
+---
+
 > A chic, minimalist, and delightfully interactive calendar-based everyday to-do planner designed in a blush-pink aesthetic with instant task persistence, motivational celebrations, reminders, and multi-month navigation.
 
 ---
