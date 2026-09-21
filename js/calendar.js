@@ -128,24 +128,31 @@ const Calendar = {
     // Task preview inside the cell
     const tasks = Store.getTasksForDate(dateKey);
     if (tasks.length > 0) {
+      // Top-right subtle count badge
+      const completedCount = tasks.filter(t => t.completed).length;
+      const countBadge = document.createElement('span');
+      countBadge.className = `day-task-count ${completedCount === tasks.length ? 'all-done' : ''}`;
+      countBadge.textContent = completedCount === tasks.length ? '✓' : `${tasks.length}`;
+      topRow.appendChild(countBadge);
+
       const previewWrap = document.createElement('div');
       previewWrap.className = 'cell-tasks-preview';
 
       const maxShow = 2;
       tasks.slice(0, maxShow).forEach(t => {
-        const pill = document.createElement('div');
-        pill.className = `cell-task-pill ${t.completed ? 'completed' : ''}`;
+        const line = document.createElement('div');
+        line.className = `cell-task-line ${t.completed ? 'completed' : ''}`;
         
-        const dot = document.createElement('span');
-        dot.className = 'pill-dot';
+        const bullet = document.createElement('span');
+        bullet.className = 'task-bullet';
         
         const text = document.createElement('span');
-        text.className = 'pill-text';
+        text.className = 'task-text';
         text.textContent = t.title;
 
-        pill.appendChild(dot);
-        pill.appendChild(text);
-        previewWrap.appendChild(pill);
+        line.appendChild(bullet);
+        line.appendChild(text);
+        previewWrap.appendChild(line);
       });
 
       if (tasks.length > maxShow) {
