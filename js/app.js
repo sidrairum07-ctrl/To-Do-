@@ -318,50 +318,6 @@ const App = {
       leftWrap.appendChild(checkbox);
       leftWrap.appendChild(details);
 
-      // Task Actions (Move Up, Move Down, Delete)
-      const actionsWrap = document.createElement('div');
-      actionsWrap.className = 'task-actions';
-
-      // Move Up Button (↑)
-      const moveUpBtn = document.createElement('button');
-      moveUpBtn.className = 'btn-task-move';
-      moveUpBtn.setAttribute('title', 'Move task up');
-      moveUpBtn.setAttribute('aria-label', 'Move task up');
-      if (index === 0) moveUpBtn.disabled = true;
-      moveUpBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-      `;
-      moveUpBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (index > 0) {
-          Store.moveTask(dateStr, task.id, 'up');
-          this.renderPlannerTasks(dateStr);
-          Calendar.render();
-        }
-      });
-
-      // Move Down Button (↓)
-      const moveDownBtn = document.createElement('button');
-      moveDownBtn.className = 'btn-task-move';
-      moveDownBtn.setAttribute('title', 'Move task down');
-      moveDownBtn.setAttribute('aria-label', 'Move task down');
-      if (index === tasks.length - 1) moveDownBtn.disabled = true;
-      moveDownBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      `;
-      moveDownBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (index < tasks.length - 1) {
-          Store.moveTask(dateStr, task.id, 'down');
-          this.renderPlannerTasks(dateStr);
-          Calendar.render();
-        }
-      });
-
       // Delete Button
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'btn-task-delete';
@@ -380,12 +336,8 @@ const App = {
         Calendar.render();
       });
 
-      actionsWrap.appendChild(moveUpBtn);
-      actionsWrap.appendChild(moveDownBtn);
-      actionsWrap.appendChild(deleteBtn);
-
       li.appendChild(leftWrap);
-      li.appendChild(actionsWrap);
+      li.appendChild(deleteBtn);
       taskList.appendChild(li);
     });
 
