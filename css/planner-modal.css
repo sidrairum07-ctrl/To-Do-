@@ -348,7 +348,72 @@
   color: var(--text-muted);
 }
 
-/* Task Actions (Delete) */
+/* Drag Handle & Reorder */
+.task-drag-handle {
+  color: #CCCCCC;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 24px;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+  user-select: none;
+}
+
+.task-drag-handle:hover {
+  color: var(--accent-rose);
+}
+
+.task-drag-handle:active {
+  cursor: grabbing;
+}
+
+.task-item.dragging {
+  opacity: 0.4;
+  background: #FFF0F2;
+  border: 1.5px dashed var(--accent-rose);
+  transform: scale(0.98);
+}
+
+.task-item.drag-over {
+  border-top: 3px solid var(--accent-rose);
+  background: #FFF8F9;
+}
+
+/* Task Actions (Move Up, Move Down, Delete) */
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.btn-task-move {
+  background: transparent;
+  border: none;
+  color: #B5B5B5;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-task-move:hover:not(:disabled) {
+  color: var(--text-dark);
+  background: #F0E6E8;
+}
+
+.btn-task-move:disabled {
+  opacity: 0.18;
+  cursor: default;
+}
+
 .btn-task-delete {
   background: transparent;
   border: none;

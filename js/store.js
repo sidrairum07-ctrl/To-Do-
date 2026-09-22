@@ -128,6 +128,37 @@ const Store = {
     return false;
   },
 
+  // Move task up or down
+  moveTask(dateStr, taskId, direction) {
+    const data = this._getData() || {};
+    const tasks = data[dateStr] || [];
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index === -1) return false;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= tasks.length) return false;
+
+    const temp = tasks[index];
+    tasks[index] = tasks[targetIndex];
+    tasks[targetIndex] = temp;
+
+    this._saveData(data);
+    return true;
+  },
+
+  // Reorder tasks via drag and drop
+  reorderTasks(dateStr, startIndex, endIndex) {
+    const data = this._getData() || {};
+    const tasks = data[dateStr] || [];
+    if (startIndex < 0 || startIndex >= tasks.length || endIndex < 0 || endIndex >= tasks.length) return false;
+
+    const [moved] = tasks.splice(startIndex, 1);
+    tasks.splice(endIndex, 0, moved);
+
+    this._saveData(data);
+    return true;
+  },
+
   // Get all tasks mapping
   getAllTasks() {
     return this._getData() || {};

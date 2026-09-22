@@ -189,15 +189,64 @@ const App = {
 
     let completedCount = 0;
 
-    tasks.forEach(task => {
+    tasks.forEach((task, index) => {
       if (task.completed) completedCount++;
 
       const li = document.createElement('li');
       li.className = `task-item ${task.completed ? 'completed' : ''}`;
+      li.setAttribute('draggable', 'true');
+      li.dataset.index = index;
+
+      // Drag and Drop Event Listeners
+      li.addEventListener('dragstart', (e) => {
+        App.draggedIndex = index;
+        li.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      li.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        li.classList.add('drag-over');
+      });
+
+      li.addEventListener('dragleave', () => {
+        li.classList.remove('drag-over');
+      });
+
+      li.addEventListener('drop', (e) => {
+        e.preventDefault();
+        li.classList.remove('drag-over');
+        if (App.draggedIndex !== null && App.draggedIndex !== undefined && App.draggedIndex !== index) {
+          Store.reorderTasks(dateStr, App.draggedIndex, index);
+          App.renderPlannerTasks(dateStr);
+          Calendar.render();
+        }
+      });
+
+      li.addEventListener('dragend', () => {
+        li.classList.remove('dragging');
+        App.draggedIndex = null;
+      });
 
       // Left wrap
       const leftWrap = document.createElement('div');
       leftWrap.className = 'task-item-left';
+
+      // Drag Handle (Grip Icon)
+      const dragHandle = document.createElement('div');
+      dragHandle.className = 'task-drag-handle';
+      dragHandle.setAttribute('title', 'Drag to reorder');
+      dragHandle.innerHTML = `
+        <svg width="10" height="14" viewBox="0 0 10 16" fill="currentColor">
+          <circle cx="2" cy="3" r="1.5"></circle>
+          <circle cx="8" cy="3" r="1.5"></circle>
+          <circle cx="2" cy="8" r="1.5"></circle>
+          <circle cx="8" cy="8" r="1.5"></circle>
+          <circle cx="2" cy="13" r="1.5"></circle>
+          <circle cx="8" cy="13" r="1.5"></circle>
+        </svg>
+      `;
 
       // Custom Checkbox
       const checkbox = document.createElement('div');
@@ -265,8 +314,53 @@ const App = {
       details.appendChild(title);
       details.appendChild(meta);
 
+      leftWrap.appendChild(dragHandle);
       leftWrap.appendChild(checkbox);
       leftWrap.appendChild(details);
+
+      // Task Actions (Move Up, Move Down, Delete)
+      const actionsWrap = document.createElement('div');
+      actionsWrap.className = 'task-actions';
+
+      // Move Up Button (↑)
+      const moveUpBtn = document.createElement('button');
+      moveUpBtn.className = 'btn-task-move';
+      moveUpBtn.setAttribute('title', 'Move task up');
+      moveUpBtn.setAttribute('aria-label', 'Move task up');
+      if (index === 0) moveUpBtn.disabled = true;
+      moveUpBtn.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      `;
+      moveUpBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index > 0) {
+          Store.moveTask(dateStr, task.id, 'up');
+          this.renderPlannerTasks(dateStr);
+          Calendar.render();
+        }
+      });
+
+      // Move Down Button (↓)
+      const moveDownBtn = document.createElement('button');
+      moveDownBtn.className = 'btn-task-move';
+      moveDownBtn.setAttribute('title', 'Move task down');
+      moveDownBtn.setAttribute('aria-label', 'Move task down');
+      if (index === tasks.length - 1) moveDownBtn.disabled = true;
+      moveDownBtn.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      `;
+      moveDownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (index < tasks.length - 1) {
+          Store.moveTask(dateStr, task.id, 'down');
+          this.renderPlannerTasks(dateStr);
+          Calendar.render();
+        }
+      });
 
       // Delete Button
       const deleteBtn = document.createElement('button');
@@ -274,7 +368,7 @@ const App = {
       deleteBtn.setAttribute('title', 'Delete task');
       deleteBtn.setAttribute('aria-label', 'Delete task');
       deleteBtn.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="3 6 5 6 21 6"></polyline>
           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
         </svg>
@@ -286,8 +380,12 @@ const App = {
         Calendar.render();
       });
 
+      actionsWrap.appendChild(moveUpBtn);
+      actionsWrap.appendChild(moveDownBtn);
+      actionsWrap.appendChild(deleteBtn);
+
       li.appendChild(leftWrap);
-      li.appendChild(deleteBtn);
+      li.appendChild(actionsWrap);
       taskList.appendChild(li);
     });
 
